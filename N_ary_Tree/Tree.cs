@@ -23,11 +23,10 @@ namespace N_ary_Tree
         {
             TreeNode<T> childrenNode = new TreeNode<T>(value, parentNode, new List<TreeNode<T>>());
             AllChildren.Add(childrenNode);
+            parentNode.Children.Add(childrenNode);
 
             LeafCount++;
             Count++;
-
-            parentNode.Children.Add(childrenNode);
 
             return childrenNode;
         }
