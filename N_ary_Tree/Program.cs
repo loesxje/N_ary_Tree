@@ -7,8 +7,9 @@ namespace N_ary_Tree
     {
         static void Main(string[] args)
         {
-            Tree<int> NAryTree = new Tree<int>();
-            TreeNode<int> root = new TreeNode<int>(5, null, new List<TreeNode<int>>());
+            // how to make the tree a root? Now it is not really included, does that matter?
+            var NAryTree = new Tree<int>();
+            var root = new TreeNode<int>(5, null, new List<TreeNode<int>>());
 
             var child1 = NAryTree.AddChildNode(root, 5);
 
@@ -21,10 +22,31 @@ namespace N_ary_Tree
             var child5 = NAryTree.AddChildNode(parent2, 2);
             var child6 = NAryTree.AddChildNode(parent2, 9);
 
+            var parent3 = NAryTree.GrowUp(child2);
+            var child7 = NAryTree.AddChildNode(parent3, 1);
+            var child8 = NAryTree.AddChildNode(parent3, 2);
 
-            Console.WriteLine($"N-ary Tree!: {root.Data}");
-            Console.WriteLine($"Node Count: {NAryTree.Count}");
-            Console.WriteLine($"Leaf Node Count: {NAryTree.LeafCount}");
+            printData(NAryTree);
+
+            NAryTree.SumToLeafs();
+
+            NAryTree.TraverseNodes();
+
+
+            NAryTree.removeNode(child5);
+            NAryTree.removeNode(parent2);
+            printData(NAryTree);
+
+            NAryTree.SumToLeafs();
+        }
+        static void printData(Tree<int> tree)
+        {
+            foreach (TreeNode<int> temptree in tree.AllChildren)
+            {
+                Console.WriteLine($"Value: {temptree.Data}, Order: {temptree.Order}");
+            }
+            Console.WriteLine($"Node Count: {tree.Count}");
+            Console.WriteLine($"Leaf Node Count: {tree.LeafCount}");
             Console.ReadLine();
         }
     }

@@ -9,12 +9,14 @@ namespace N_ary_Tree
         public int Count { get; set; } // aantal nodes in de tree
         public int LeafCount { get; set; } // aantal leaf nodes in de tree
         public List<TreeNode<T>> AllChildren = new List<TreeNode<T>>();
+        public int maxOrder { get; set; }
 
         // Constructor
         public Tree()
         {
             Count = 0;
             LeafCount = 0;
+            maxOrder = 0;
         }
 
 
@@ -28,6 +30,10 @@ namespace N_ary_Tree
             LeafCount++;
             Count++;
 
+            childrenNode.Order = 1 + childrenNode.Parent.Order;
+            if (maxOrder < childrenNode.Order)
+                maxOrder = childrenNode.Order;
+
             return childrenNode;
         }
 
@@ -40,22 +46,80 @@ namespace N_ary_Tree
         }
 
         // remove specific TreeNode from Tree
-        private void removeNode(TreeNode<T> node)
+        public void removeNode(TreeNode<T> node)
         {
+            this.AllChildren.Remove(node);
+            var parentNode = node.Parent;
+            parentNode.Children.Remove(node);
 
+            Count--;
+            if (node.Children.Count == 0)
+                LeafCount--;
+            else if (node.Children.Count != 0)
+            {
+                for (int i = node.Children.Count-1; i >= 0; i--)
+                {
+                    removeNode(node.Children[i]);
+                }
+            }
         }
 
         // returns all node values
-        private void TraverseNodes()
+        public void TraverseNodes()
         {
+            Console.WriteLine("Traverse nodes of N-ary Tree in level order traversal:");
+            var n = 0;
+            Console.Write("{0} ", AllChildren[n].Data);
+            while (n < AllChildren.Count)
+                if (AllChildren[n].Children != null)
+                {
+                    AllChildren[n].Children.ForEach(i => Console.Write("{0} ", i.Data));
+                    n++;
+                }
+            Console.WriteLine("\n");
+            Console.ReadLine();
 
+            //  THIS CODE WAS TRYING TO VISUALISE A REAL N-ARY TREE, DOESN'T WORK THOUGH.
+            //var n = 0;
+            //Console.WriteLine(this.AllChildren[n].Data);
+            //while (n < this.AllChildren.Count)
+            //    if (this.AllChildren[n].Children != null)
+            //    {
+            //        foreach (var node in this.AllChildren[n].Parent.Children)
+            //        {
+            //            for (int i = 0; i < this.AllChildren[n].Parent.Children.Count; i++)
+            //                if (node == this.AllChildren[n].Parent.Children[i])
+            //                    Console.Write(new string('\t', i));
+            //            if (this.AllChildren[n].Parent.Children[0] == node)
+            //                Console.Write("\n");
+            //        }
+            //        this.AllChildren[n].Children.ForEach(i => Console.Write("{0}\t", i.Data));
+            //        n++;
+            //    }
         }
 
         // returns only all summed Node values on the path to each leaf node
-        private void SumToLeafs()
+        public void SumToLeafs()
         {
+            Console.WriteLine("Return the sum from all the leafs to the root:");
+            List<TreeNode<T>> leafnodes = new List<TreeNode<T>>();
+            foreach (TreeNode<T> child in AllChildren)
+                if (child.Children.Count == 0)
+                    leafnodes.Add(child);
 
+            foreach (TreeNode<T> node in leafnodes)
+            {
+                dynamic sum = 0;
+                var tempnode = node;
+                for (int i = 0; i < maxOrder; i++)
+                {
+                    sum += tempnode.Data;
+                    tempnode = tempnode.Parent;
+                }
+                Console.Write("{0}\t", sum);
+            }
+            Console.WriteLine();
+            Console.ReadLine();
         }
-       
     }
 }
