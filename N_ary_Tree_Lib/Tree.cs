@@ -4,7 +4,7 @@ using System.Text;
 
 namespace N_ary_Tree
 {
-    class Tree<T>
+    public class Tree<T>
     {
         public int Count { get; set; } // aantal nodes in de tree
         public int LeafCount { get; set; } // aantal leaf nodes in de tree
@@ -65,60 +65,39 @@ namespace N_ary_Tree
         }
 
         // returns all node values
-        public void TraverseNodes()
+        public List<T> TraverseNodes()
         {
-            Console.WriteLine("Traverse nodes of N-ary Tree in level order traversal:");
+            List<T> traversednodes = new List<T>();
             for (int i = 1; i <= maxOrder; i++)
             {
-                foreach(TreeNode<T> node in AllChildren)
+                foreach (TreeNode<T> node in AllChildren)
                     if (node.Order == i)
-                        Console.Write($"{node.Data} ");
-                Console.WriteLine("\n");
+                        traversednodes.Add(node.Data);
             }
-            Console.ReadLine();
-
-            //  THIS CODE WAS TRYING TO VISUALISE A REAL N-ARY TREE, DOESN'T WORK THOUGH.
-            //var n = 0;
-            //Console.WriteLine(this.AllChildren[n].Data);
-            //while (n < this.AllChildren.Count)
-            //    if (this.AllChildren[n].Children != null)
-            //    {
-            //        foreach (var node in this.AllChildren[n].Parent.Children)
-            //        {
-            //            for (int i = 0; i < this.AllChildren[n].Parent.Children.Count; i++)
-            //                if (node == this.AllChildren[n].Parent.Children[i])
-            //                    Console.Write(new string('\t', i));
-            //            if (this.AllChildren[n].Parent.Children[0] == node)
-            //                Console.Write("\n");
-            //        }
-            //        this.AllChildren[n].Children.ForEach(i => Console.Write("{0}\t", i.Data));
-            //        n++;
-            //    }
+            return traversednodes;
         }
 
         // returns only all summed Node values on the path to each leaf node
-        public void SumToLeafs()
+        public List<T> SumToLeafs()
         {
             List<TreeNode<T>> leafnodes = new List<TreeNode<T>>();
             foreach (TreeNode<T> child in AllChildren)
                 if (child.Children.Count == 0)
                     leafnodes.Add(child);
 
-            Console.WriteLine($"Return the sum from {leafnodes.Count} leafs to the root:");
-
+            List<T> sumtoleafs_list = new List<T>();
             foreach (TreeNode<T> node in leafnodes)
             {
-                dynamic sum = 0;
+                dynamic sum = null;
                 var tempnode = node;
                 for (int i = 0; i < maxOrder; i++)
                 {
                     sum += tempnode.Data;
                     tempnode = tempnode.Parent;
                 }
-                Console.Write("{0}\t", sum);
+                sumtoleafs_list.Add(sum);
             }
-            Console.WriteLine();
-            Console.ReadLine();
+            return sumtoleafs_list;
         }
     }
 }

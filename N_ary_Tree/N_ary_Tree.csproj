@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\N_ary_Tree_Lib\N_ary_Tree_Lib.csproj" />
+  </ItemGroup>
+
 </Project>

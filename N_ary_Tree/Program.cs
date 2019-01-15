@@ -8,45 +8,41 @@ namespace N_ary_Tree
         static void Main(string[] args)
         {
             // how to make the tree a root? Now it is not really included, does that matter?
-            var NAryTree = new Tree<int>();
-            var root = new TreeNode<int>(5, null, new List<TreeNode<int>>());
+            var NAryTree = new Tree<string>();
+            var root = new TreeNode<string>("Grootoma", null, new List<TreeNode<string>>());
 
-            var child1 = NAryTree.AddChildNode(root, 5);
+            var child1 = NAryTree.AddChildNode(root, "Oma");
 
             var parent1 = NAryTree.GrowUp(child1);
-            var child2 = NAryTree.AddChildNode(parent1, 4);
-            var child3 = NAryTree.AddChildNode(parent1, 7);
+            var child2 = NAryTree.AddChildNode(parent1, "Papa");
+            var child3 = NAryTree.AddChildNode(parent1, "Mama");
 
             var parent2 = NAryTree.GrowUp(child3);
-            var child4 = NAryTree.AddChildNode(parent2, 13);
-            var child5 = NAryTree.AddChildNode(parent2, 2);
-            var child6 = NAryTree.AddChildNode(parent2, 9);
+            var child4 = NAryTree.AddChildNode(parent2, "Broer");
+            var child5 = NAryTree.AddChildNode(parent2, "Zus");
+            var child6 = NAryTree.AddChildNode(parent2, "Ik");
 
             var parent3 = NAryTree.GrowUp(child2);
-            var child7 = NAryTree.AddChildNode(parent3, 1);
-            var child8 = NAryTree.AddChildNode(parent3, 2);
+            var child7 = NAryTree.AddChildNode(parent3, "Stiefbroer");
+            var child8 = NAryTree.AddChildNode(parent3, "Stiefzus");
 
-            printData(NAryTree);
+            var sumtoleafs1 = NAryTree.SumToLeafs();
+            foreach(var sum in sumtoleafs1)
+                Console.WriteLine(sum);
+            Console.ReadLine();
 
-            NAryTree.SumToLeafs();
-
-            NAryTree.TraverseNodes();
-
+            var traversed = NAryTree.TraverseNodes();
+            foreach (var val in traversed)
+                Console.Write(val);
+            Console.ReadLine();
 
             NAryTree.removeNode(child5);
             NAryTree.removeNode(parent2);
-            printData(NAryTree);
 
-            NAryTree.SumToLeafs();
-        }
-        static void printData(Tree<int> tree)
-        {
-            foreach (TreeNode<int> temptree in tree.AllChildren)
-            {
-                Console.WriteLine($"Value: {temptree.Data}, Order: {temptree.Order}");
-            }
-            Console.WriteLine($"Node Count: {tree.Count}");
-            Console.WriteLine($"Leaf Node Count: {tree.LeafCount}");
+            var sumtoleafs2 = NAryTree.SumToLeafs();
+            foreach (var sum in sumtoleafs2)
+                Console.WriteLine(sum);
+
             Console.ReadLine();
         }
     }

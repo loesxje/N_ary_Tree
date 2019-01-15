@@ -4,7 +4,7 @@ using System.Text;
 
 namespace N_ary_Tree
 {
-    class TreeNode<T>   
+    public class TreeNode<T>   
     {
         public T Data { get; set; }
         public TreeNode<T> Parent { get; set; }
