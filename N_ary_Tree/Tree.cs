@@ -68,15 +68,13 @@ namespace N_ary_Tree
         public void TraverseNodes()
         {
             Console.WriteLine("Traverse nodes of N-ary Tree in level order traversal:");
-            var n = 0;
-            Console.Write("{0} ", AllChildren[n].Data);
-            while (n < AllChildren.Count)
-                if (AllChildren[n].Children != null)
-                {
-                    AllChildren[n].Children.ForEach(i => Console.Write("{0} ", i.Data));
-                    n++;
-                }
-            Console.WriteLine("\n");
+            for (int i = 1; i <= maxOrder; i++)
+            {
+                foreach(TreeNode<T> node in AllChildren)
+                    if (node.Order == i)
+                        Console.Write($"{node.Data} ");
+                Console.WriteLine("\n");
+            }
             Console.ReadLine();
 
             //  THIS CODE WAS TRYING TO VISUALISE A REAL N-ARY TREE, DOESN'T WORK THOUGH.
@@ -101,11 +99,12 @@ namespace N_ary_Tree
         // returns only all summed Node values on the path to each leaf node
         public void SumToLeafs()
         {
-            Console.WriteLine("Return the sum from all the leafs to the root:");
             List<TreeNode<T>> leafnodes = new List<TreeNode<T>>();
             foreach (TreeNode<T> child in AllChildren)
                 if (child.Children.Count == 0)
                     leafnodes.Add(child);
+
+            Console.WriteLine($"Return the sum from {leafnodes.Count} leafs to the root:");
 
             foreach (TreeNode<T> node in leafnodes)
             {
