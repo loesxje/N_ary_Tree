@@ -21,4 +21,3 @@ namespace N_ary_Tree
         }
     }
 }
-//https://github.com/shawnjobseeker/N-Ary-Tree/blob/master/ConsoleApp2/Node.cs

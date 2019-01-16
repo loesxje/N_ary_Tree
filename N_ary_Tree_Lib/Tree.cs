@@ -88,7 +88,11 @@ namespace N_ary_Tree
             List<T> sumtoleafs_list = new List<T>();
             foreach (TreeNode<T> node in leafnodes)
             {
-                dynamic sum = null;
+                dynamic sum;
+                if (typeof(T) == typeof(int))
+                    sum = 0;
+                else
+                    sum = null;
                 var tempnode = node;
                 for (int i = 0; i < maxOrder; i++)
                 {
