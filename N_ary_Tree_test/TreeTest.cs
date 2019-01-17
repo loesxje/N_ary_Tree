@@ -19,15 +19,16 @@ namespace N_ary_Tree_test
             var root = new TreeNode<string>("Oma", null, new List<TreeNode<string>>());
             // Act
             var child1 = NAryTree.AddChildNode(root, "Mama");
-            var parent1 = NAryTree.GrowUp(child1);
-            var child2 = NAryTree.AddChildNode(parent1, "Ik");
+            var child2 = NAryTree.AddChildNode(child1, "Ik");
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(NAryTree.AllChildren.Count == 2);
                 Assert.Contains(child1, NAryTree.AllChildren);
                 Assert.Contains(child2, NAryTree.AllChildren);
-                Assert.AreEqual(child2.Parent, parent1);
+                Assert.AreEqual(child2.Parent, child1);
+                Assert.That(NAryTree.Count == 2);
+                Assert.That(NAryTree.LeafCount == 1);
             });
 
         }
@@ -40,15 +41,16 @@ namespace N_ary_Tree_test
             var root = new TreeNode<int>(3, null, new List<TreeNode<int>>());
             // Act
             var child1 = NAryTree.AddChildNode(root, 3);
-            var parent1 = NAryTree.GrowUp(child1);
-            var child2 = NAryTree.AddChildNode(parent1, 2);
+            var child2 = NAryTree.AddChildNode(child1, 2);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(NAryTree.AllChildren.Count == 2);
                 Assert.Contains(child1, NAryTree.AllChildren);
                 Assert.Contains(child2, NAryTree.AllChildren);
-                Assert.AreEqual(child2.Parent, parent1);
+                Assert.AreEqual(child2.Parent, child1);
+                Assert.That(NAryTree.Count == 2);
+                Assert.That(NAryTree.LeafCount == 1);
             });
         }
 
@@ -72,12 +74,12 @@ namespace N_ary_Tree_test
             var NAryTree = new Tree<int>();
             var root = new TreeNode<int>(3, null, new List<TreeNode<int>>());
             var child1 = NAryTree.AddChildNode(root, 3);
-            var parent1 = NAryTree.GrowUp(child1);
-            var child2 = NAryTree.AddChildNode(parent1, 2);
+            var child2 = NAryTree.AddChildNode(child1, 2);
             // Act
-            var traversed = NAryTree.TraverseNodes();
+            List<int> traversed = NAryTree.TraverseNodes();
             // Assert
-            Assert.AreEqual(traversed.Count, NAryTree.AllChildren.Count);
+            int[] validation = { 2, 3 };
+            Assert.That(traversed, Is.EquivalentTo(validation));
             // weet niet goed wat ik nog meer moet testen
         }
 
@@ -88,13 +90,17 @@ namespace N_ary_Tree_test
             var NAryTree = new Tree<int>();
             var root = new TreeNode<int>(3, null, new List<TreeNode<int>>());
             var child1 = NAryTree.AddChildNode(root, 3);
-            var parent1 = NAryTree.GrowUp(child1);
-            var child2 = NAryTree.AddChildNode(parent1, 2);
-            var child3 = NAryTree.AddChildNode(parent1, 1);
+            var child2 = NAryTree.AddChildNode(child1, 2);
+            var child3 = NAryTree.AddChildNode(child1, 1);
             // Act
             var sum = NAryTree.SumToLeafs();
             // Assert
-            Assert.AreEqual(sum.Count, NAryTree.LeafCount);
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(sum.Count, NAryTree.LeafCount);
+                Assert.Contains(4, sum);
+                Assert.Contains(5, sum);
+            });
         }
 
         [TestCase]
@@ -104,13 +110,17 @@ namespace N_ary_Tree_test
             var NAryTree = new Tree<string>();
             var root = new TreeNode<string>("Oma", null, new List<TreeNode<string>>());
             var child1 = NAryTree.AddChildNode(root, "Mama");
-            var parent1 = NAryTree.GrowUp(child1);
-            var child2 = NAryTree.AddChildNode(parent1, "Ik");
-            var child3 = NAryTree.AddChildNode(parent1, "Zus");
+            var child2 = NAryTree.AddChildNode(child1, "Ik");
+            var child3 = NAryTree.AddChildNode(child1, "Zus");
             // Act
             var sum = NAryTree.SumToLeafs();
             // Assert
-            Assert.AreEqual(sum.Count, NAryTree.LeafCount);
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(sum.Count, NAryTree.LeafCount);
+                Assert.Contains("IkMama", sum);
+                Assert.Contains("ZusMama", sum);
+            });
         }
     }
 }

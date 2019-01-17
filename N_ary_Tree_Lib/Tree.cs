@@ -15,7 +15,7 @@ namespace N_ary_Tree
         public Tree()
         {
             Count = 0;
-            LeafCount = 0;
+            LeafCount = 1;
             maxOrder = 0;
         }
 
@@ -23,11 +23,23 @@ namespace N_ary_Tree
         // adds new TreeNode with supplied value to Tree below node parentNode
         public TreeNode<T> AddChildNode(TreeNode<T> parentNode, T value)
         {
+            if(parentNode == null)
+            {
+                // root instellen op nieuwe node
+                throw new NotImplementedException();
+                //TreeNode<T> parentNode = new TreeNode<T>(null, null, new List<TreeNode<T>>());
+            }
+
+            if(parentNode.Children.Count != 0)
+            {
+                LeafCount++;
+            }
+
             TreeNode<T> childrenNode = new TreeNode<T>(value, parentNode, new List<TreeNode<T>>());
             AllChildren.Add(childrenNode);
             parentNode.Children.Add(childrenNode);
 
-            LeafCount++;
+            //LeafCount++;
             Count++;
 
             childrenNode.Order = 1 + childrenNode.Parent.Order;
@@ -35,14 +47,6 @@ namespace N_ary_Tree
                 maxOrder = childrenNode.Order;
 
             return childrenNode;
-        }
-
-        public TreeNode<T> GrowUp(TreeNode<T> childNode)
-        {
-            TreeNode<T> parentNode = childNode;
-            LeafCount--;
-
-            return parentNode;
         }
 
         // remove specific TreeNode from Tree
